@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secura - Splash Screen</title>
+    <style>
+        /* Splash screen styling with glowing effect */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #splash-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1e1e1e;
+        }
+
+        #app-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            animation: glow-effect 2s linear infinite;
+        }
+
+        /* Glowing animation */
+        @keyframes glow-effect {
+            0%, 100% { box-shadow: 0 0 20px 10px #5B51D8; }
+            50% { box-shadow: 0 0 20px 10px #FFDC80; }
+        }
+    </style>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            let isLoggedIn = localStorage.getItem('isLoggedIn');
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                if (isLoggedIn) window.location.href = "dashboard.html";
+                else window.location.href = "login.html";
+            }, 5000);
+        });
+    </script>
+</head>
+<body>
+    <div id="splash-screen">
+        <img src="uploads/logo.png" alt="App Logo" id="app-logo">
+    </div>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secura - Dashboard</title>
+    <style>
+        /* General reset and body styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #6e99b8;
+            color: #142d4c;
+        }
+
+/* General reset and body styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F0F8FF;
+    color: #142d4c;
+}
+
+/* Navbar styling */
+.navbar {
+    width: 250px; /* Adjusted for mobile view */
+    background-color: #142d4c;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 10;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items in navbar */
+}
+
+.navbar h1 {
+    text-align: center;
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.navbar ul li {
+    margin: 0;
+    width: 100%;
+}
+
+.navbar ul li a {
+    display: block;
+    text-align: left; /* Default alignment */
+    padding: 15px 20px;
+    margin: 5px 0;
+    background: transparent; /* No background color */
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar ul li a:hover {
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar ul li a.active {
+    border: 2px solid white;
+}
+
+/* Content area */
+.content {
+    margin-left: 250px; /* Margin for navbar */
+    padding: 40px;
+    background-color: #F0F8FF;
+    min-height: 100vh;
+    box-shadow: 0 4px 8px rgba(42, 187, 155);
+    transition: margin-left 0.3s ease; /* Smooth transition */
+}
+
+.content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center; /* Default alignment */
+}
+
+.content p {
+    font-size: 1rem;
+    color: #555;
+    text-align: left; /* Default alignment */
+}
+
+.button-container {
+    display: flex; /* Use Flexbox for button alignment */
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px; /* Margin for spacing */
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #00ff77;
+    color: #142d4c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background-color: #ececec;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #142d4c;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 250px); /* Full width minus navbar */
+    left: 250px; /* Align footer with content */
+}
+
+/* Complaint form styling (similar to dashboard style) */
+.complaint-form {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.complaint-form label {
+    display: block;
+    margin-bottom: 10px;
+    color: #142d4c;
+    font-weight: bold;
+}
+
+.complaint-form input,
+.complaint-form textarea,
+.complaint-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.complaint-form input[type="file"] {
+    padding: 0;
+}
+
+.complaint-form input[type="radio"] {
+    margin-right: 10px;
+}
+
+.complaint-form .button {
+    background-color: #142d4c;
+    color: white;
+    width: 100%;
+}
+
+.complaint-form .button:hover {
+    background-color: #10133d;
+}
+
+/* Custom Safe Alert input fields styling */
+#custom-subject, #custom-message {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Hamburger Menu Icon Styling */
+.hamburger {
+    display: none; /* Only show on mobile */
+    font-size: 2rem;
+    color: #142d4c;
+    padding: 10px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 15;
+}
+
+/* Close Button Styling for Navbar in Mobile */
+.close-btn {
+    display: none; /* Default: hidden */
+    font-size: 2rem;
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 20; /* Above other elements */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        width: 80%; /* Adjust navbar width for better mobile view */
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        padding-top: 40px;
+    }
+
+    .navbar.active {
+        transform: translateX(0); /* Slide-in when active */
+    }
+
+    .navbar.active .close-btn {
+        display: block; /* Show close button when navbar is active */
+    }
+
+    .hamburger {
+        display: block; /* Hamburger icon for mobile view */
+        position: fixed;
+        top: 0px;
+        left: 20px;
+        font-size: 2rem;
+        color: #142d4c;
+        cursor: pointer;
+        z-index: 15;
+    }
+
+    .content {
+        margin-left: 0; /* Remove left margin for full-width on mobile */
+        padding: 20px;
+        font-size: 1.2rem; /* Increased font size for mobile view */
+        text-align: center; /* Center content for mobile view */
+    }
+
+    .footer {
+        width: 100%;
+        left: 0; /* Align footer with content */
+        margin-top: 20px; /* Added margin-top for spacing */
+    }
+    .button {
+        font-size: 1.1rem; /* Increased button font size */
+        padding: 12px 22px; /* Increased padding for larger buttons */
+        margin: 10px auto; /* Center button */
+    }
+
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        width: 100%; /* Full width for buttons on mobile */
+    }
+}
+#map {
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide Hamburger Icon on Desktop */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+    }
+
+    .navbar {
+        transform: translateX(0); /* Show by default on desktop */
+    }
+
+    .close-btn {
+        display: none; /* Hide close button on desktop */
+    }
+}
+
+
+
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key="your api key""></script>
+    <script>
+        let map, marker;
+
+        function initMap() {
+            // Set default location and initialize the map
+            const initialLocation = { lat: 40.7128, lng: -74.0060 }; // Replace with your default location
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: initialLocation,
+                zoom: 15,
+            });
+
+            // Add a marker at the initial location
+            marker = new google.maps.Marker({
+                position: initialLocation,
+                map: map,
+                title: "Your Location",
+            });
+
+            // Use geolocation to update marker to the user's live location
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+
+                        // Update marker and center map to user's location
+                        marker.setPosition(userLocation);
+                        map.setCenter(userLocation);
+                    },
+                    () => {
+                        handleLocationError(true, map.getCenter());
+                    }
+                );
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, pos) {
+            alert(
+                browserHasGeolocation
+                    ? "Error: The Geolocation service failed."
+                    : "Error: Your browser doesn't support geolocation."
+            );
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div class="hamburger" onclick="toggleNavbar()">☰</div>
+
+
+    <!-- Left side navigation -->
+    <div class="navbar">
+        <div class="close-btn" onclick="toggleNavbar()">×</div>
+        <h1>Secura Dashboard</h1>
+        <ul>
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#complaint-registration">Complaint Registration</a></li>
+            <li><a href="#location-sharing">Location Sharing</a></li>
+            <li><a href="#help-support">Help & Support</a></li>
+            <li><a href="#history">History</a></li>
+            <button onclick="logout()">Logout</button>
+
+
+
+
+        </ul>
+    </div>
+
+    <!-- Main content area -->
+    <div class="content">
+        <div id="home">
+            <h2>Home</h2>
+            <button class="button" id="safe-alert">Safe Alert</button>
+            <button class="button" id="panic-alert">Panic Alert</button>
+            <p>If you encounter any issues, please <a href="#help-support">report us here</a>.</p>
+        </div>
+
+       <!-- Complaint form section -->
+        
+       <div id="complaint-registration" style="display:none;">
+        <h2>Complaint Registration</h2>
+        <form class="complaint-form">
+            <!-- Complaint Type -->
+            <label for="complaint-type">Choose Complaint Type:</label>
+            <select id="complaint-type">
+                <option value="general">General</option>
+                <option value="cyber-crime">Cyber Crime</option>
+            </select>
+
+            <!-- Subject -->
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" placeholder="Enter the subject of your complaint">
+
+            <!-- Message -->
+            <label for="message">Message:</label>
+            <textarea id="message" placeholder="Describe your complaint"></textarea>
+
+            <!-- Contact Preference -->
+            <label>Can we contact you via:</label>
+            <label><input type="radio" name="contact-method" value="call"> Call</label>
+            <label><input type="radio" name="contact-method" value="whatsapp"> WhatsApp</label>
+
+            <!-- Proof Upload -->
+            <label for="proof">Proof (if any):</label>
+            <input type="file" id="proof" multiple>
+
+            <!-- File list to display uploaded files -->
+            <div class="file-list" id="file-list"></div>
+
+            <!-- Submit Button -->
+            <button class="button" type="button" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+   
+
+    <div id="contacts" style="display:none;">
+        <h2>Contacts</h2>
+        <p>Access your phone contacts to add a number.</p>
+        <button class="button" onclick="accessAndDisplayContacts()">Access Contacts</button>
+    </div>
+    
+
+
+    <div id="location-sharing" class="section" style="display:none;">
+            <h2>Location Sharing</h2>
+            <p>View live location:</p>
+            <div id="map"></div>
+          </div>
+
+
+          <div id="help-support" style="display:none;">
+            <h2>Help & Support</h2>
+            <p>Access FAQs or contact support for assistance.</p>
+        
+            <!-- FAQs Section -->
+            <h3>Frequently Asked Questions</h3>
+            <ul>
+                <li><strong>Q: How do I reset my password?</strong>
+                    <p>A: Click on "Forgot Password" on the login page and follow the instructions to reset your password.</p>
+                </li>
+                <li><strong>Q: How can I update my profile information?</strong>
+                    <p>A: Navigate to your dashboard and click on the "Profile" section to edit your information.</p>
+                </li>
+                <li><strong>Q: What should I do if I encounter an error?</strong>
+                    <p>A: Ensure your internet connection is stable and try again. If the issue persists, contact support.</p>
+                </li>
+                <li><strong>Q: Is my personal information secure?</strong>
+                    <p>A: Yes, we use advanced encryption and security measures to protect your data.</p>
+                </li>
+            </ul>
+        
+            <!-- Contact Support Section -->
+            <h3>Contact Support</h3>
+            <p>If you need further assistance, please mail us at:</p>
+            <p><a href="">gmail.com</a></p>
+        
+            <!-- Buttons -->
+            
+        </div>
+        
+
+        <div id="history" style="display:none;">
+            <h2>History</h2>
+            <p>View your past alerts and complaint history.</p>
+            <button class="button" onclick="fetchSentAlerts()">View Alert History</button>
+            <button class="button" onclick="fetchSentComplaints()">View Complaint History</button>
+            
+            <h3>Alert History</h3>
+            <ul id="alerts-list"></ul>
+            
+            <h3>Complaint History</h3>
+            <ul id="complaints-list"></ul>
+        </div>
+    
+
+</div>    
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2024 Secura. All Rights Reserved.
+    </div>
+
+
+    <script>
+        // Function to handle complaint form submission
+        async function submitForm() {
+            const complaintType = document.getElementById('complaint-type').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const contactMethod = document.querySelector('input[name="contact-method"]:checked')?.value;
+    
+            if (!subject || !message || !contactMethod) {
+                alert("Please fill in all required fields!");
+                return;
+            }
+    
+            // Create a FormData object to handle file uploads
+            const formData = new FormData();
+            formData.append('complaintType', complaintType);
+            formData.append('subject', subject);
+            formData.append('message', message);
+            formData.append('contactMethod', contactMethod);
+    
+            const proofFile = document.getElementById('proof').files[0];
+            if (proofFile) {
+                formData.append('proof', proofFile);
+            }
+    
+            try {
+                // Send the form data as multipart/form-data
+                const response = await fetch('', {
+                    method: 'POST',
+                    body: formData,
+                });
+    
+                const result = await response.json();
+                if (response.status === 201) {
+                    alert("Your complaint has been successfully submitted!");
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert("Error submitting complaint.");
+            }
+        }
+    
+        // Function to show the selected section and hide others
+        const showSection = (sectionId) => {
+            const sections = document.querySelectorAll('.content > div');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        };
+    
+        // Set up click events on navbar links
+        document.querySelectorAll('.navbar ul li a').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const sectionId = link.getAttribute('href').substring(1);
+                showSection(sectionId);
+                document.querySelectorAll('.navbar ul li a').forEach(a => a.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    
+        // Show the default section on page load
+        showSection('home');
+    
+        // Function to send alerts
+        const sendAlert = async (alertType) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const { latitude, longitude, accuracy } = position.coords;
+                    const response = await fetch('', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        credentials: 'include', 
+                        body: JSON.stringify({ 
+                            alert_type: alertType,
+                            latitude: latitude,
+                            longitude: longitude,
+                            accuracy: accuracy
+                        })
+                    });
+    
+                    const data = await response.json();
+    
+                    if (response.ok) {
+                        alert(data.message);
+                    } else {
+                        alert(data.error);
+                    }
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        };
+    
+        // Event listeners for alert buttons
+        document.getElementById('safe-alert').addEventListener('click', () => sendAlert('safe'));
+        document.getElementById('panic-alert').addEventListener('click', () => sendAlert('panic'));
+    
+        // Handle file uploads and display uploaded files list
+        const fileInput = document.getElementById('proof');
+        const fileList = document.getElementById('file-list');
+        const filesArray = [];
+    
+        fileInput.addEventListener('change', () => {
+            const files = Array.from(fileInput.files);
+            filesArray.push(...files);
+            displayFiles();
+        });
+    
+        const displayFiles = () => {
+            fileList.innerHTML = '';
+            filesArray.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-list-item');
+                fileItem.innerHTML = `
+                    <span>${file.name}</span>
+                    <button onclick="removeFile(${index})">Remove</button>
+                `;
+                fileList.appendChild(fileItem);
+            });
+        };
+    
+        const removeFile = (index) => {
+            filesArray.splice(index, 1);
+            displayFiles();
+        };
+    
+        // Function to send custom alerts
+        const sendCustomAlert = async () => {
+            const subject = document.getElementById('custom-subject').value;
+            const message = document.getElementById('custom-message').value;
+    
+            if (!subject || !message) {
+                alert("Please fill in both fields.");
+                return;
+            }
+    
+            const response = await fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    subject: subject,
+                    message: message
+                })
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert(data.message);
+            } else {
+                alert(data.error);
+            }
+        };
+    
+        document.getElementById('custom-safe-alert').addEventListener('click', sendCustomAlert);
+    
+// Function to toggle Navbar visibility in mobile view
+// Function to toggle Navbar visibility in mobile view
+// Function to toggle Navbar visibility in mobile view
+function toggleNavbar() {
+    const navbar = document.querySelector('.navbar');
+    navbar.classList.toggle('active');
+    const isOpen = navbar.classList.contains('active');
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto'; // Prevent scrolling when menu is open
+
+    // Toggle hamburger visibility when navbar is open
+    document.querySelector('.hamburger').style.display = isOpen ? 'none' : 'block';
+}
+
+
+// Automatically close the navbar when a link is clicked in mobile view
+document.querySelectorAll('.navbar ul li a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) toggleNavbar();
+    });
+});
+
+    
+        // Responsive check to reset navbar display on window resize for desktop view
+        window.addEventListener('resize', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.innerWidth > 768) {
+                navbar.style.transform = 'translateX(0)';
+            } else {
+                navbar.style.transform = 'translateX(-100%)';
+            }
+        });
+
+
+        // Function to handle logout
+        function logout() {
+            // Clear any stored session or token data
+            localStorage.clear();      // Clears local storage (if any)
+            sessionStorage.clear();    // Clears session storage (if any)
+    
+            // Redirect to the login page
+            window.location.href = '/login.html'; // Replace with the actual login page path
+        }
+
+function accessAndDisplayContacts() {
+    // Check if the platform is Cordova/Capacitor (mobile)
+    if (typeof window.cordova !== 'undefined' || typeof window.Capacitor !== 'undefined') {
+        // Mobile: Use Cordova/Capacitor Contacts Plugin
+        accessContactsMobile();
+    } else {
+        // Web (PWA): Use Web Contacts API (if supported)
+        accessContactsWeb();
+    }
+}
+
+// Function to access contacts for Web (PWA)
+async function accessContactsWeb() {
+    if ('contacts' in navigator && 'ContactsManager' in window) {
+        try {
+            // Define the properties you want to retrieve from the contacts
+            const props = ['name', 'tel'];
+            const options = { multiple: true }; // Allow multiple contacts
+
+            // Request the contacts
+            const contacts = await navigator.contacts.select(props, options);
+
+            // Display the contacts
+            let contactList = '<h3>Contacts List</h3><ul>';
+            contacts.forEach(contact => {
+                contactList += `<li>${contact.name}: ${contact.tel}</li>`;
+            });
+            contactList += '</ul>';
+
+            // Show the contacts in the div
+            document.getElementById('contacts').innerHTML += contactList;
+            document.getElementById('contacts').style.display = 'block';
+        } catch (error) {
+            console.error('Error accessing contacts:', error);
+            alert('Could not access contacts.');
+        }
+    } else {
+        alert('Contacts API is not supported in this browser.');
+    }
+}
+
+// Function to access contacts for Mobile (Cordova/Capacitor)
+function accessContactsMobile() {
+    // Check if the Cordova/Capacitor contacts plugin is available
+    if (navigator.contacts) {
+        navigator.contacts.find(
+            ['displayName', 'phoneNumbers'], // Fields to fetch
+            function (contacts) {
+                // Format and display the contacts
+                let contactList = '<h3>Contacts List</h3><ul>';
+                contacts.forEach(contact => {
+                    contactList += `<li>${contact.displayName}: ${contact.phoneNumbers[0].value}</li>`;
+                });
+                contactList += '</ul>';
+
+                // Display the contacts
+                document.getElementById('contacts').innerHTML += contactList;
+                document.getElementById('contacts').style.display = 'block';
+            },
+            function (error) {
+                console.error('Error accessing contacts:', error);
+                alert('Could not access contacts.');
+            },
+            { filter: '', multiple: true } // Allow selecting multiple contacts
+        );
+    } else {
+        alert('Contacts plugin is not available.');
+    }
+}
+
+function logout() {
+    // Clear session storage or local storage
+    sessionStorage.clear(); // Clears session-specific data
+    localStorage.clear();   // Clears persistent data
+    
+    // Optionally remove specific items instead of clearing all
+    // sessionStorage.removeItem('key');
+    // localStorage.removeItem('key');
+
+    // Redirect to the login or home page
+    window.location.href = "/login.html"; // Replace with your login page URL
+}
+
+
+// Function to handle logout
+function logout() {
+    console.log("User has been logged out automatically.");
+    // Clear user session data
+    localStorage.removeItem("userToken"); // Example for clearing token or session ID
+    sessionStorage.clear(); // Clears session storage
+}
+
+// Add event listener for window close
+window.addEventListener("beforeunload", (event) => {
+    logout(); // Call logout when the tab or browser is closed
+});
+
+
+
+
+function showFAQs() {
+    alert("Scroll down to view the FAQs below.");
+}
+
+function contactSupport() {
+    window.location.href = "mailto:";
+}
+
+
+
+// Function to fetch and display complaint history
+let complaints = [];
+function fetchSentComplaints() {
+    const complaintsList = document.getElementById("complaints-list");
+    complaintsList.innerHTML = ""; // Clear previous data
+
+    if (complaints.length === 0) {
+        complaintsList.innerHTML = "<li>No complaints registered yet.</li>";
+        return;
+    }
+
+    // Populate complaints in the list
+    complaints.forEach((complaint, dashboard) => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            <strong>Complaint #${dashboard + 1}</strong>
+            <p>Type: ${complaint.type}</p>
+            <p>Subject: ${complaint.subject}</p>
+            <p>Message: ${complaint.message}</p>
+            <p>Contact Method: ${complaint.contactMethod}</p>
+            <p>Date: ${complaint.timestamp}</p>
+        `;
+        complaintsList.appendChild(listItem);
+    });
+}
+
+
+</script>
+
+
+    
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secura - Signup Form</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%; /* Ensure full height for centering */
+            background-color: white; /* Set white background for the entire page */
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            flex-direction: row; /* Set to row for larger screens */
+        }
+
+        /* Left side signup form */
+        .signup-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white; /* White background for signup form */
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add slight shadow for better visibility */
+        }
+
+        .signup-form h2 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        /* Company name on the top left */
+        .company-name {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Custom input styles */
+        .coolinput {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .coolinput label.text {
+            font-size: 0.75rem;
+            color: #10133D; /* Updated border label color */
+            font-weight: 700;
+            position: relative;
+            top: 0.5rem;
+            margin: 0 0 0 7px;
+            padding: 0 3px;
+            background: white;
+            width: fit-content;
+        }
+
+        .coolinput input {
+            padding: 11px 10px;
+            font-size: 0.75rem;
+            border: 2px #10133D solid; /* Updated input border color */
+            border-radius: 5px;
+            background: white;
+            width: 100%;
+        }
+
+        .coolinput input:focus {
+            outline: none;
+        }
+
+        .signup-form button {
+            background-color: #10133D; /* Updated button background color */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin-top: 10px;
+        }
+
+        .signup-form .already-account {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .signup-form .already-account a {
+            color: #10133D; /* Updated link color */
+            text-decoration: none;
+        }
+
+        .signup-form .already-account a:hover {
+            text-decoration: underline;
+        }
+
+        /* Signup with Google button */
+        .signup-form .google-signup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .signup-form .google-signup button {
+            display: flex;
+            align-items: center;
+            background-color: #db4437;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .signup-form .google-signup button i {
+            margin-right: 10px;
+        }
+
+        /* Right side company details and social icons */
+        .company-details {
+            flex: 1;
+            background-color: #10133D; /* Updated background color */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 40px;
+        }
+
+        .company-details h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .company-details p {
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Stack the elements vertically on smaller screens */
+                height: auto; /* Allow auto height for smaller screens */
+                background-color: white; /* Ensure the background is white for mobile */
+            }
+
+            .signup-form {
+                justify-content: center; /* Center content vertically */
+                align-items: center; /* Center content horizontally */
+                padding: 20px; /* Adjust padding for mobile */
+                margin: auto; /* Center form horizontally */
+                max-width: 90%; /* Allow some margin on the sides */
+                box-shadow: none; /* Remove shadow for mobile view */
+            }
+
+            .company-details {
+                display: none; /* Hide company details on mobile */
+            }
+
+            .signup-form h2 {
+                font-size: 1.5rem; /* Adjust heading size */
+            }
+
+            .signup-form .coolinput {
+                max-width: 100%; /* Allow inputs to take full width */
+            }
+
+            .signup-form button {
+                max-width: 100%; /* Allow buttons to take full width */
+            }
+        }
+
+    </style>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <!-- Company name in top left -->
+    <div class="company-name">Secura</div>
+
+    <div class="container">
+
+        <!-- Left side signup form -->
+        <div class="signup-form">
+            <h2>Signup</h2>
+            <div class="coolinput">
+                <label for="email" class="text">Email</label>
+                <input type="text" name="Email" id="email" class="input" required>
+            </div>
+            <div class="coolinput">
+                <label for="phone" class="text">Phone Number</label>
+                <input type="text" id="phone" class="input" required>
+            </div>
+            <div class="coolinput">
+                <label for="password" class="text">Password</label>
+                <input type="text" id="password" class="input" required>
+            </div>
+            <button type="submit">Sign Up</button>
+
+            <div class="already-account">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+
+            <div class="google-signup">
+                <button type="button"><i class="fab fa-google"></i> Sign up with Google</button>
+            </div>
+        </div>
+
+        <!-- Right side company details with #10133D background -->
+        <div class="company-details">
+            <h2>Welcome to Secura</h2>
+            <p>Your personal safety app that instantly alerts your emergency contacts when you're in panic. With a simple tap, it shares your location and a distress message, ensuring help is on the way. Stay safe and connected, knowing that support is just a touch away!</p>
+            
+            <!-- Social media icons -->
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
+            event.preventDefault();  // Prevent the default form submission
+    
+            // Gather form data
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+    
+            // Prepare the data for sending
+            const data = {
+                email: email,
+                phone: phone,
+                password: password
+            };
+    
+            // Send the data to the Flask backend
+            fetch('http:signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);  // Show error message from backend
+                } else {
+                    alert('Signup successful!');  // Show success message
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');  // Show generic error message
+            });
+        });
+    </script>
+</body>
+</html>
